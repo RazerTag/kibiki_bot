@@ -3,8 +3,8 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 # Меню для пользователя
 user_menu = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton("📊 Мой баланс"), KeyboardButton("📜 Моя история")],
-        [KeyboardButton("📢 Объявления")],
+        [KeyboardButton(text="📊 Мой баланс"), KeyboardButton(text="📜 Моя история")],
+        [KeyboardButton(text="📢 Объявления")],
     ],
     resize_keyboard=True
 )
@@ -12,11 +12,11 @@ user_menu = ReplyKeyboardMarkup(
 # Меню для администратора
 admin_menu = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton("➕ Начислить Кибики"), KeyboardButton("➖ Списать Кибики")],
-        [KeyboardButton("🔍 Баланс студента"), KeyboardButton("🗃 История студента")],
-        [KeyboardButton("🧑‍🎓 Добавить студента"), KeyboardButton("❌ Удалить студента")],
-        [KeyboardButton("📢 Новое объявление"), KeyboardButton("🧹 Удалить объявление")],
-        [KeyboardButton("📊 Мой баланс"), KeyboardButton("📜 Моя история"), KeyboardButton("📢 Объявления")],
+        [KeyboardButton(text="➕ Начислить Кибики"), KeyboardButton(text="➖ Списать Кибики")],
+        [KeyboardButton(text="🔍 Баланс студента"), KeyboardButton(text="🗃 История студента")],
+        [KeyboardButton(text="🧑‍🎓 Добавить студента"), KeyboardButton(text="❌ Удалить студента")],
+        [KeyboardButton(text="📢 Новое объявление"), KeyboardButton(text="🧹 Удалить объявление")],
+        [KeyboardButton(text="📊 Мой баланс"), KeyboardButton(text="📜 Моя история"), KeyboardButton(text="📢 Объявления")],
     ],
     resize_keyboard=True
 )
