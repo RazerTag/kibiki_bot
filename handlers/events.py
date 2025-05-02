@@ -12,7 +12,7 @@ async def list_events(message: types.Message):
     """
     events = get_all_events()
     if not events:
-        await message.answer("🚫 No events available at the moment.")
+        await message.answer("🚫 На данный момент нет доступных событий.")
         return
 
     # Parse dates and sort events chronologically

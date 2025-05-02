@@ -30,7 +30,7 @@ async def send_upcoming_events():
                 # Expecting ISO format in 'date' field
                 ev_dt = datetime.fromisoformat(ev['date'])
             except Exception as e:
-                logger.warning(f"Unable to parse date '{ev['date']}' for event {ev['event_id']}: {e}")
+                logger.warning(f"Невозможно проанализировать дату '{ev['date']}' для события {ev['event_id']}: {e}")
                 continue
             if now < ev_dt <= threshold:
                 upcoming.append(ev)
@@ -45,15 +45,15 @@ async def send_upcoming_events():
                 chat_id = int(user['user_id'])
                 for ev in upcoming:
                     text = (
-                        f"📢 Reminder: Upcoming event *{ev['name']}*\n"
-                        f"📅 When: {ev['date']} UTC\n"
-                        f"📍 Where: {ev['location']}\n"
-                        f"🏅 Points: {ev['points']}"
+                        f"📢 Напоминание: Предстоящее событие *{ev['name']}*\n"
+                        f"📅 Когда: {ev['date']} UTC\n"
+                        f"📍 Где: {ev['location']}\n"
+                        f"🏅 Кибики: {ev['points']}"
                     )
                     await bot.send_message(chat_id, text, parse_mode="Markdown")
             except Exception as e:
-                logger.error(f"Failed to send reminder to {user['user_id']}: {e}")
+                logger.error(f"Не удалось отправить напоминание пользователю {user['user_id']}: {e}")
 
         await bot.session.close()
     except Exception as e:
-        logger.exception(f"Error in send_upcoming_events: {e}")
+        logger.exception(f"Ошибка в send_upcoming_events: {e}")

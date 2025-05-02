@@ -12,7 +12,7 @@ async def balance_handler(message: types.Message):
     """
     user_id = message.from_user.id
     points = get_user_points(user_id)
-    await message.answer(f"🏅 Your current balance: *{points}* points", parse_mode="Markdown")
+    await message.answer(f"🏅 Ваш текущий баланс: *{points}* баллов", parse_mode="Markdown")
 
 @router.message(Command("history"))
 async def history_handler(message: types.Message):
@@ -29,7 +29,7 @@ async def history_handler(message: types.Message):
     events = get_all_events()
     events_map = {ev['event_id']: ev for ev in events}
 
-    lines = ["📜 *Your check-in history:*\n"]
+    lines = ["📜 *Ваша история посещений:*\n"]
     # Sort history by timestamp ascending
     parsed = []
     for record in history:

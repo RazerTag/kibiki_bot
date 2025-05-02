@@ -1,9 +1,9 @@
 import os
 from aiogram import Router, types
 from aiogram.filters import Command
-from keyboards import user_menu, admin_menu
+from keyboards import main_menu, admin_menu
+from csv_utils import get_user_group
 
-# Initialize router
 router = Router()
 
 # Parse ADMIN_IDs from environment
@@ -16,28 +16,37 @@ async def start_handler(message: types.Message):
     Handle /start command: greet the user and show appropriate menu.
     """
     welcome_text = (
-        "👋 Welcome!\n"
-        "This bot helps you register for events, check in, and track your points.\n"
-        "Use the menu below to get started."
+        "👋 Добро пожаловать в Kibiki Bot!\n"
+        "Этот бот предназначен для учёта и управления вашими Кибиками.\n"
+        "Отмечайтесь на события, получайте Кибики и следите за своим балансом."
     )
     user_id = message.from_user.id
-    # Choose menu based on admin status
-    if user_id in ADMIN_IDS:
-        await message.answer(welcome_text, reply_markup=admin_menu)
-    else:
-        await message.answer(welcome_text, reply_markup=user_menu)
+    # Show group if set
+    group = get_user_group(user_id)
+    if group:
+        welcome_text += f"\n👥 Ваша группа: {group}"
+    kb = admin_menu if user_id in ADMIN_IDS else main_menu
+    await message.answer(welcome_text, reply_markup=kb)
 
 @router.message(Command("help"))
 async def help_handler(message: types.Message):
     """
-    Handle /help command: show available commands.
+    Handle /help command: show available commands and appropriate menu.
     """
     help_text = (
-        "/start - Start interaction with the bot\n"
-        "/events - List upcoming events\n"
-        "/checkin - Check in to an event\n"
-        "/balance - Show your current points\n"
-        "/history - Show your event check-in history\n"
-        "/cancel - Cancel current action"
+        "Используйте кнопки меню или команды:\n"
+        "/start — Начать работу\n"
+        "/menu — Показать меню\n"
+        "/events — Список событий\n"
+        "/checkin — Отметиться на событии\n"
+        "/balance — Показать ваш баланс\n"
+        "/history — Ваша история чек-инов\n"
+        "/cancel — Отменить текущее действие"
     )
-    await message.answer(help_text)
+    user_id = message.from_user.id
+    # Show group if set
+    group = get_user_group(user_id)
+    if group:
+        help_text += f"\n👥 Ваша группа: {group}"
+    kb = admin_menu if user_id in ADMIN_IDS else main_menu
+    await message.answer(help_text, reply_markup=kb)

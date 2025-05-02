@@ -12,7 +12,7 @@ async def checkin_start(message: types.Message):
     """
     events = get_all_events()
     if not events:
-        await message.answer("🚫 There are no events available at the moment.")
+        await message.answer("🚫 На данный момент нет доступных событий.")
         return
 
     markup = InlineKeyboardMarkup(row_width=1)
@@ -21,7 +21,7 @@ async def checkin_start(message: types.Message):
         callback_data = f"checkin:{ev['event_id']}"
         markup.add(InlineKeyboardButton(text=btn_text, callback_data=callback_data))
 
-    await message.answer("📌 Select an event to check in:", reply_markup=markup)
+    await message.answer("📌 Выберите событие для регистрации:", reply_markup=markup)
 
 @router.callback_query(lambda c: c.data and c.data.startswith("checkin:"))
 async def process_checkin(call: types.CallbackQuery):
@@ -46,7 +46,7 @@ async def process_checkin(call: types.CallbackQuery):
     # Acknowledge and remove buttons
     await call.message.edit_reply_markup(None)
     await call.message.answer(
-        f"✅ You have checked in to *{ev['name']}* and earned *{points_awarded}* points!", 
+        f"✅ Вы отметились в *{ev['name']}* и заработали *{points_awarded}* баллов!", 
         parse_mode="Markdown"
     )
     await call.answer()

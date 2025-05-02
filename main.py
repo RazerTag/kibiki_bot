@@ -20,6 +20,7 @@ from handlers.ranking import router as ranking_router
 from handlers.admin import router as admin_router
 from handlers.common import router as common_router
 from handlers.announcements import router as announcements_router
+from handlers.buttons import router as buttons_router
 
 async def setup_bot_commands(bot: Bot):
     """
@@ -33,6 +34,11 @@ async def setup_bot_commands(bot: Bot):
         BotCommand(command="checkin", description="Отметиться на мероприятии"),
         BotCommand(command="balance", description="Показать ваши баллы"),
         BotCommand(command="history", description="Ваша история чек-инов"),
+        BotCommand(command="deleteevent", description="Удалить событие"),
+        BotCommand(command="deleteevent", description="Удалить событие"),
+        BotCommand(command="editevent", description="Изменить событие"),
+        BotCommand(command="adduser", description="Список пользователей"),
+        BotCommand(command="listusers", description="Удалить событие"),
         BotCommand(command="addevent", description="Добавить событие (админ)"),
         BotCommand(command="setpoints", description="Установить очки (админ)"),
         BotCommand(command="announce", description="Создать объявление (админ)"),
@@ -69,8 +75,9 @@ async def main():
     dp.include_router(events_router)
     dp.include_router(ranking_router)
     dp.include_router(admin_router)
-    dp.include_router(common_router)
     dp.include_router(announcements_router)
+    dp.include_router(buttons_router)   
+    dp.include_router(common_router)
 
     # Установка команд бота
     await setup_bot_commands(bot)
