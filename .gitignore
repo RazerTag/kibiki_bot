@@ -1,0 +1,34 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Файлы окружения
+.env
+env/
+venv/
+.venv/
+
+# Каталог с данными (runtime)
+data/
+
+# Логи
+*.log
+
+# Сборки, дистрибутивы
+build/
+dist/
+*.egg-info/
+*.egg
+
+# IDE / редакторы
+.vscode/
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Прочее
+*.bak
+*.swp
