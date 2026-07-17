@@ -1,95 +1,72 @@
-<!-- README for bot_mirea -->
-
-<!-- Badges -->
-
-[![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/)
-[![Aiogram](https://img.shields.io/badge/aiogram-3.0-brightgreen.svg)](https://docs.aiogram.dev/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-
-\section\*{Telegram Event & Points Bot}
-
 # Telegram Event & Points Bot
 
-A **powerful** and **flexible** Telegram bot built with Python and [Aiogram 3](https://docs.aiogram.dev/), designed to help communities:
+Telegram bot for community event management: registration, event creation, check-ins, points, rankings, announcements, and scheduled reminders.
 
-* Organize events
-* Manage participant registrations
-* Track points and leaderboards
-* Broadcast announcements
+## Features
 
----
+- User registration through Telegram commands and buttons
+- Admin flows for creating and managing events
+- Participant check-ins with automatic points
+- Personal history and global ranking views
+- Broadcast announcements
+- Scheduled event reminders
+- CSV-based persistence for simple deployment and backups
 
-\subsection\*{Key Features}
+## Tech Stack
 
-## Key Features
-
-* 🎉 **User Registration**: Easy self-registration via command or button.
-* 📅 **Event Management**: FSM-powered flows for admins to create, schedule, and edit events.
-* ✅ **Check-In System**: Participants check in and earn points automatically.
-* 🏆 **Points & Ranking**: View personal history and global leaderboards.
-* 📢 **Announcements**: Broadcast messages to all users or targeted groups.
-* 🔄 **Interactive Keyboards**: Intuitive inline and reply keyboards for seamless navigation.
-* 💾 **Persistent Storage**: CSV storage for portability and easy backups.
-* ⏰ **Scheduled Notifications**: APScheduler integration for reminders and summaries.
-* 🔒 **Admin Panel**: Secure admin commands for event and point management.
-
----
-
-\subsection\*{Getting Started}
+- Python
+- Aiogram 3
+- APScheduler
+- CSV storage
 
 ## Getting Started
 
-1. **Clone the repository**
+```bash
+git clone https://github.com/RazerTag/kibiki_bot.git
+cd kibiki_bot
 
-   ```bash
-   git clone https://github.com/yourusername/bot_mirea.git
-   cd bot_mirea
-   ```
+python -m venv .venv
+source .venv/bin/activate
 
-2. **Install dependencies**
+pip install -r requirements.txt
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+Create a `.env` file:
 
-3. **Configure environment variables**
-   Create a `.env` file in the project root:
+```dotenv
+BOT_TOKEN=your_telegram_bot_token
+ADMIN_ID=comma_separated_admin_user_ids
+```
 
-   ```dotenv
-   BOT_TOKEN=your_telegram_bot_token
-   ADMIN_ID=comma_separated_admin_user_ids
-   ```
+Run the bot:
 
-4. **Run the bot**
-
-   ```bash
-   python main.py
-   ```
-
----
-
-\subsection\*{Project Structure}
+```bash
+python main.py
+```
 
 ## Project Structure
 
+```text
+kibiki_bot/
+├── handlers/
+│   ├── admin.py
+│   ├── announcements.py
+│   ├── checkin.py
+│   ├── events.py
+│   ├── ranking.py
+│   └── registration.py
+├── middlewares/
+├── csv_utils.py
+├── keyboards.py
+├── main.py
+├── scheduler_tasks.py
+└── states.py
 ```
-bot_mirea/
-├── main.py         # Entry point: bot, dispatcher, routers, scheduler
-├── admin.py        # Admin commands (add events, set points)
-├── keyboards.py    # Inline & reply keyboards
-├── handlers/       # (Optional) Modular handlers
-├── middlewares/    # Custom middleware (e.g., registration checks)
-├── utils/          # CSV, scheduling helpers
-├── requirements.txt
-├── .env            # Environment variables
-└── LICENSE
-```
 
----
+## Portfolio Context
 
-
-\subsection\*{License}
+This project shows practical Telegram automation: FSM-based user flows, admin workflows, scheduled jobs, and simple persistence. It is a small community-management system rather than a production SaaS backend.
 
 ## License
 
-Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
+MIT
