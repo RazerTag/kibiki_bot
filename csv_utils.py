@@ -2,16 +2,15 @@ import os
 import csv
 from datetime import datetime
 
-# Directory for CSV storage\BASE_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 
 # File paths
 ANNOUNCEMENTS_FILE = os.path.join(DATA_DIR, 'announcements.csv')
-USERS_FILE         = os.path.join(DATA_DIR, 'users.csv')
-EVENTS_FILE        = os.path.join(DATA_DIR, 'events.csv')
-HISTORY_FILE       = os.path.join(DATA_DIR, 'history.csv')
-POINTS_FILE        = os.path.join(DATA_DIR, 'points.csv')
+USERS_FILE = os.path.join(DATA_DIR, 'users.csv')
+EVENTS_FILE = os.path.join(DATA_DIR, 'events.csv')
+HISTORY_FILE = os.path.join(DATA_DIR, 'history.csv')
+POINTS_FILE = os.path.join(DATA_DIR, 'points.csv')
 
 
 def init_csv_files():
@@ -206,10 +205,14 @@ def edit_event(event_id: int, *, name: str = None, date: str = None,
         reader = csv.DictReader(f)
         for row in reader:
             if int(row['event_id']) == event_id:
-                if name is not None:     row['name']     = name
-                if date is not None:     row['date']     = date
-                if location is not None: row['location'] = location
-                if points is not None:   row['points']   = str(points)
+                if name is not None:
+                    row['name'] = name
+                if date is not None:
+                    row['date'] = date
+                if location is not None:
+                    row['location'] = location
+                if points is not None:
+                    row['points'] = str(points)
                 updated = True
             rows.append(row)
     if updated:
@@ -309,9 +312,16 @@ def delete_user(user_id: int) -> bool:
         if deleted:
             with open(USERS_FILE, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.writer(f)
-                writer.writerow(['user_id','username','first_name','last_name','registered_at','group'])
+                writer.writerow(['user_id', 'username', 'first_name', 'last_name', 'registered_at', 'group'])
                 for r in rows:
-                    writer.writerow([r['user_id'],r['username'],r['first_name'],r['last_name'],r['registered_at'],r.get('group','')])
+                    writer.writerow([
+                        r['user_id'],
+                        r['username'],
+                        r['first_name'],
+                        r['last_name'],
+                        r['registered_at'],
+                        r.get('group', ''),
+                    ])
     # 2) points.csv
     rows = []
     if os.path.exists(POINTS_FILE):
@@ -325,9 +335,9 @@ def delete_user(user_id: int) -> bool:
         if deleted:
             with open(POINTS_FILE, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.writer(f)
-                writer.writerow(['user_id','points'])
+                writer.writerow(['user_id', 'points'])
                 for r in rows:
-                    writer.writerow([r['user_id'],r['points']])
+                    writer.writerow([r['user_id'], r['points']])
     # 3) history.csv
     rows = []
     if os.path.exists(HISTORY_FILE):
@@ -341,7 +351,7 @@ def delete_user(user_id: int) -> bool:
         if deleted:
             with open(HISTORY_FILE, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.writer(f)
-                writer.writerow(['user_id','event_id','timestamp'])
+                writer.writerow(['user_id', 'event_id', 'timestamp'])
                 for r in rows:
-                    writer.writerow([r['user_id'],r['event_id'],r['timestamp']])
+                    writer.writerow([r['user_id'], r['event_id'], r['timestamp']])
     return deleted

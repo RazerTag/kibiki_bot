@@ -1,12 +1,15 @@
+import os
+import logging
+
 from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-import os
 
 from csv_utils import save_announcement, get_all_announcements, get_all_users
 from states import AnnounceStates
 
 router = Router()
+logger = logging.getLogger(__name__)
 
 @router.message(Command("announce"))
 async def announce_start(message: types.Message, state: FSMContext):
@@ -29,8 +32,8 @@ async def announce_text(message: types.Message, state: FSMContext):
                 f"📢 *Announcement #{ann_id}:*\n{text}",
                 parse_mode="Markdown"
             )
-        except:
-            pass
+        except Exception:
+            logger.exception("Failed to send announcement to user_id=%s", u.get("user_id"))
     await message.answer(f"✅ Объявление #{ann_id} отправлено всем.")
     await state.clear()
 

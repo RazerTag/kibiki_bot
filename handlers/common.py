@@ -1,9 +1,12 @@
+import os
+
 from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardRemove
+
+from csv_utils import set_user_group
 from keyboards import main_menu, admin_menu
-import os
 
 
 router = Router()
@@ -27,15 +30,6 @@ async def cancel_handler(message: types.Message, state: FSMContext):
         reply_markup=ReplyKeyboardRemove()
     )
 
-@router.message()
-async def fallback_handler(message: types.Message):
-    """
-    Catch-all handler for unrecognized messages.
-    """
-    await message.answer(
-        "❓ Я это не понял. Используйте /help, чтобы увидеть доступные команды."
-    )
-
 @router.message(Command("setgroup"))
 async def setgroup_handler(message: types.Message):
     parts = message.text.split(maxsplit=1)
@@ -44,3 +38,12 @@ async def setgroup_handler(message: types.Message):
     group = parts[1].strip()
     set_user_group(message.from_user.id, group)
     await message.answer(f"✅ Ваша группа установлена: {group}")
+
+@router.message()
+async def fallback_handler(message: types.Message):
+    """
+    Catch-all handler for unrecognized messages.
+    """
+    await message.answer(
+        "❓ Я это не понял. Используйте /help, чтобы увидеть доступные команды."
+    )

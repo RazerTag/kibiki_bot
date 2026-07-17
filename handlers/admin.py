@@ -95,10 +95,14 @@ async def editevent_handler(message: types.Message):
         )
     eid, field, new = int(parts[1]), parts[2].lower(), parts[3].strip()
     kwargs = {}
-    if field == 'name':       kwargs['name']     = new
-    elif field == 'date':     kwargs['date']     = new
-    elif field == 'location': kwargs['location'] = new
-    elif field == 'points' and new.isdigit(): kwargs['points'] = int(new)
+    if field == 'name':
+        kwargs['name'] = new
+    elif field == 'date':
+        kwargs['date'] = new
+    elif field == 'location':
+        kwargs['location'] = new
+    elif field == 'points' and new.isdigit():
+        kwargs['points'] = int(new)
     else:
         return await message.answer("Поле должно быть одним из: name, date, location, points.")
     if edit_event(eid, **kwargs):

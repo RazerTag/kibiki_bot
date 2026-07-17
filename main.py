@@ -1,6 +1,6 @@
-import asyncio
-import os
 import logging
+import os
+import asyncio
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -12,7 +12,6 @@ from middlewares.registration_middleware import RegistrationMiddleware
 from csv_utils import init_csv_files
 from scheduler_tasks import send_upcoming_events
 
-# Подключаем роутеры (обработчики команд)
 from handlers.registration import router as registration_router
 from handlers.checkin import router as checkin_router
 from handlers.events import router as events_router
@@ -24,8 +23,7 @@ from handlers.buttons import router as buttons_router
 
 async def setup_bot_commands(bot: Bot):
     """
-    Устанавливаем список команд, чтобы в Telegram при вводе "/"
-    отображалось меню с описаниями.
+    Register commands shown by Telegram when the user opens the "/" menu.
     """
     commands = [
         BotCommand(command="start", description="Начать регистрацию"),
@@ -34,12 +32,12 @@ async def setup_bot_commands(bot: Bot):
         BotCommand(command="checkin", description="Отметиться на мероприятии"),
         BotCommand(command="balance", description="Показать ваши баллы"),
         BotCommand(command="history", description="Ваша история чек-инов"),
-        BotCommand(command="deleteevent", description="Удалить событие"),
-        BotCommand(command="deleteevent", description="Удалить событие"),
-        BotCommand(command="editevent", description="Изменить событие"),
-        BotCommand(command="adduser", description="Список пользователей"),
-        BotCommand(command="listusers", description="Удалить событие"),
         BotCommand(command="addevent", description="Добавить событие (админ)"),
+        BotCommand(command="deleteevent", description="Удалить событие (админ)"),
+        BotCommand(command="editevent", description="Изменить событие (админ)"),
+        BotCommand(command="adduser", description="Добавить пользователя (админ)"),
+        BotCommand(command="removeuser", description="Удалить пользователя (админ)"),
+        BotCommand(command="listusers", description="Список пользователей (админ)"),
         BotCommand(command="setpoints", description="Установить очки (админ)"),
         BotCommand(command="announce", description="Создать объявление (админ)"),
         BotCommand(command="announcements", description="Показать объявления"),
@@ -48,28 +46,22 @@ async def setup_bot_commands(bot: Bot):
     await bot.set_my_commands(commands)
 
 async def main():
-    # Настройка логирования
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-    # Загрузка переменных окружения
     load_dotenv()
     BOT_TOKEN = os.getenv("BOT_TOKEN")
     if not BOT_TOKEN:
         logger.error("BOT_TOKEN не найден в .env")
         return
 
-    # Инициализация CSV-файлов
     init_csv_files()
 
-    # Создание бота и диспетчера
     bot = Bot(token=BOT_TOKEN, parse_mode=None)
     dp = Dispatcher(storage=MemoryStorage())
 
-    # Middleware для автоматической регистрации
     dp.message.middleware(RegistrationMiddleware())
 
-    # Регистрация роутеров
     dp.include_router(registration_router)
     dp.include_router(checkin_router)
     dp.include_router(events_router)
@@ -79,10 +71,8 @@ async def main():
     dp.include_router(buttons_router)   
     dp.include_router(common_router)
 
-    # Установка команд бота
     await setup_bot_commands(bot)
 
-    # Настройка планировщика уведомлений
     scheduler = AsyncIOScheduler()
     scheduler.add_job(send_upcoming_events, "interval", hours=1)
     scheduler.start()
